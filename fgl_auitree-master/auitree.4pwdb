@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<WorkspaceDatabase fileContentsEncoding="CP1252" version="3.0">
+<File n="arraycopy.4gl" s="1" ts="20240711163604482"/>
+<File n="auitree.4gl" s="1" ts="20240711163604482"/>
+<File n="auitree_test.4gl" s="1" ts="20240711163604482">
+<Dep t="auitree.4gl"/>
+<Dep t="arraycopy.4gl"/>
+</File>
+<File n="displayclipboardtowindow.4gl" s="1" ts="20240711163604482"/>
+</WorkspaceDatabase>

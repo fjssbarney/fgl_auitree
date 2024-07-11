@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Form name="displayclipboardtowindow" build="5.00.01" width="80" height="10">
+  <Grid width="80" height="10">
+    <FormField name="formonly.clipboard" colName="clipboard" fieldId="0" sqlTabName="formonly" tabIndex="1">
+      <TextEdit width="78" height="10" stretch="both" scrollBars="both" fontPitch="fixed" wantReturns="1" scroll="1" posY="0" posX="1" gridWidth="78" gridHeight="10"/>
+    </FormField>
+  </Grid>
+  <RecordView tabName="formonly">
+    <Link colName="clipboard" fieldIdRef="0"/>
+  </RecordView>
+</Form>

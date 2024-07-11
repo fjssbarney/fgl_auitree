@@ -1,0 +1,343 @@
+#
+#       (c) Copyright 2008, Four Js AsiaPac - www.4js.com.au/local
+#
+#       MIT License (http://www.opensource.org/licenses/mit-license.php)
+#
+#       Permission is hereby granted, free of charge, to any person
+#       obtaining a copy of this software and associated documentation
+#       files (the "Software"), to deal in the Software without restriction,
+#       including without limitation the rights to use, copy, modify, merge,
+#       publish, distribute, sublicense, and/or sell copies of the Software,
+#       and to permit persons to whom the Software is furnished to do so,
+#       subject to the following conditions:
+#
+#       The above copyright notice and this permission notice shall be
+#       included in all copies or substantial portions of the Software.
+#
+#       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#       EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+#       OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#       NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+#       BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+#       ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+#       CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+#       THE SOFTWARE.
+#
+#       auitree_test.per Example Genero 4GL code to copy entire array to clipboard
+#
+#       December 2008 reuben
+
+
+ACTION DEFAULTS
+ACTION copyentirearraywithheadings (TEXT="Copy Entire Array  (incl Headings)", COMMENT="Copy the entire array including table columnheadings to the clipboard", ACCELERATOR=CONTROL-E)
+ACTION copyentirearraywithoutheadings (TEXT="Copy Entire Array (excl Headings)", COMMENT="Copy the entire array excluding table column headings to the clipboard", ACCELERATOR=CONTROL-E)
+ACTION displayentirearraywithheadingstowindow (TEXT="Display Array in Textedit", COMMENT="Copy the entire array to a window")
+ACTION selectiontostring(TEXT="Use Selection To String", COMMENT="Use selection to string method to copy entire array to a window") 
+
+ACTION actiontextset1 (TEXT="Set1")
+ACTION actiontextset2 (TEXT="Set2")
+END
+
+LAYOUT (TEXT="AUI Tree Menu example")
+FOLDER auitree_test #(STYLE="accordion")
+
+PAGE home (TEXT="Welcome", ACTION=home)
+GRID
+{
+This program gives some examples of where AUI (or DOM) tree manipulation has 
+been used to achieve a particular outcome.
+[" "]
+Before attempting to learn aspects of this manipulation, you should start the
+GDC with the -D command line option specified and be familiar with what happens
+if you press Control and right-click on a widget. Any manipulation we are doing
+is essentially a case of finding one or more of the nodes in the tree and
+reading and changing one of the attribute values.
+[" "]
+In creating this example I came across a number of instance where 4Js has 
+implemented a function that I had forgotten existed. So with every release
+keep an eye on ui.form and ui.Dialog classes to see what methods are there
+for you to use. 
+[" "]
+DISCLAIMER
+4Js may change the AUI tree between Genero releases. Ensure that you test any
+library routines you create with each new release.
+[X]
+}
+END
+END
+
+PAGE readAttributes (TEXT="Read Attributes")
+VBOX
+VBOX vbx1
+HBOX hbx1
+GROUP grp11 
+GRID grd11
+{
+Top left corner
+}
+END #GRID
+END #GROUP
+GROUP grp12
+GRID grd12
+{
+Top right corner
+}
+END #GRID
+END #GROUP
+END #HBOX
+HBOX hbx2
+GROUP grp21
+GRID grd21
+{
+Bottom left corner
+}
+END #GRID
+END #GROUP
+GROUP grp22
+GRID grd22
+{
+Bottom right corner
+}
+END #GRID
+END #GROUP
+END #HBOX
+END #VBOX
+GRID
+{
+Whilst methods exist to set attributes, the methods to get them may not be
+present. This example uses the function field_hidden_get() to determine the
+current hidden attribute before using the official method to either
+hide or unhide the element.
+[Y]
+}
+END
+END #VBOX
+END #PAGE
+
+PAGE readDialogType (TEXT="Read Dialog Type")
+GRID
+{
+Construct     [dt01       ] Click the ButtonEdit, should display Construct
+Input         [dt02       ] Click the ButtonEdit, should display Input
+Menu          [dt03       ] Click the Button, then click Test Button, should display Menu
+Display Array [dt04       ] Select the Display Array, then click Test in Action Panel, should display DisplayArray
+Input Array   [dt05       ] Select the Input Array, then click Test in Action Panel, should display InputArray
+[" "]
+Usage for this maybe in a zoom window where you may allow multiple selection in a CONSTRUCT which you wouldn't in an INPUT.
+}
+END
+END
+
+PAGE hideTag (TEXT = "Hide TAG")
+GRID
+{
+[tl01           |tf01      |td01                   ]
+[tl02           |tf02      |td02                   ]
+[" "]
+Sometimes you may want to work on more than one form element at a time. In this 
+example, have used the TAG attribute to select more than one field to
+perform the DOM manipulation on.
+
+Personally I dislike using TAG as you can only have one dimension of data in it
+and still use XPath. If we had matches in the XPath method it would be more
+useful.
+
+Also note this routine hides the field manipulating the DOM directly rather
+than using the Genero method. If possibleyou should use the Genero method
+where available.
+[Z]
+}
+END
+END
+
+PAGE arraycopy (TEXT="Array Copy")
+TABLE
+{
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+[ac01       |ac02                |ac03         |ac04         |ac05          |ac06       |ac07     |ac08                 ]
+
+}
+END
+END
+
+PAGE styleaddremove (TEXT="Stye Add/Remove") 
+GRID
+{
+Field 1 [s01     ] This field is mandatory
+Field 2 [s02     ] This field is mandatory and the number must be even and greater than zero
+Field 3 [s03     ] This field is not mandatory but if it is entered it must be even and greater than zero
+
+In this example, we add and remove a style to a field with an existing style.
+Mandatory fields have a pink background.
+Invalid values have a red background. 
+Note what happens when you enter 1212 slowly into each field.
+}
+END
+END
+
+
+
+PAGE commentplaceholder (TEXT="Placeholder/Comment manipulation")
+GRID
+{
+Edit     [cp01       ]
+
+IN this example, change placeholder and comment on the fly
+}
+END
+END
+
+
+
+
+PAGE topmenubuilder (TEXT="Top Menu Builder")
+GRID
+{
+No example but note the topmenu file auitree_test.4tm has no entry for File, Edit
+and Help. These are common to all topmenus so have put the inclusion of these 
+entries into topmenu_loadstandard() rather than having to repeat the definition
+for File,Edit, Help in every single .4tm file.
+}
+END 
+END
+
+PAGE stylereader (TEXT="Style Reader")
+GRID
+{
+Normal window [bsr01   ]
+Dialog window [bsr02   ]
+}
+END
+END
+
+PAGE testrg (TEXT="RadioGroup")
+HBOX
+GRID
+{
+[rg00]
+}
+END #GRID
+VBOX
+GRID
+{
+[rgp ]
+}
+END
+TABLE
+{
+[rg01      |rg02       ]
+}
+END #TABLE
+END #VBNX
+END #HBOX
+END #PAGE
+
+PAGE currentfolderpage (TEXT="Current Folder Page")
+VBOX
+GRID
+{
+This example shows the conundrum for folder pages and determining what page is 
+on top.  The conundrum exists because the Folder node in the AUI Tree does not
+keep track on what the current page is.
+[" "]
+This method uses ON ACTION on each page to keep track of current folder page 
+when there is no focusable element on the page
+[bfp01         ]
+[" "]
+This method will look at the field with focus and tell you what folder page the 
+field with focus is on
+[bfp02         ]
+}
+END #GRID
+FOLDER currentfolderpage
+PAGE testpageone (ACTION=testpageone, TEXT="Test Page One")
+GRID
+{
+Test Page One
+}
+END #GRID
+END #PAGE
+PAGE testpagetwo (ACTION=testpagetwo, TEXT="Test Page Two")
+GRID
+{
+Test Page Two
+}
+END #GRID
+END #PAGE
+PAGE testpagethree (ACTION=testpagethree, TEXT="Test Page Three")
+GRID
+{
+Test Page Three
+}
+END #GRID
+END #PAGE
+
+
+
+END #FOLDER
+
+END #VBOX
+END #PAGE
+
+END # FOLDER 
+END # PAGE
+ATTRIBUTES
+
+LABEL tl01: TEXT="Field 01", TAG="tfield01";
+BUTTONEDIT tf01 = formonly.tcode01, TAG="tfield01";
+LABEL td01 = formonly.tdesc01, TAG="tfield01";
+LABEL tl02: TEXT="Field 02", TAG="tfield02";
+BUTTONEDIT tf02 = formonly.tcode02, TAG="tfield02";
+LABEL td02 = formonly.tdesc02, TAG="tfield02";
+
+BUTTONEDIT dt01 = formonly.constructfield, ACTION=dialogType;
+BUTTONEDIT dt02 = formonly.inputfield, ACTION=dialogType;
+BUTTON dt03 : menu_test;
+EDIT dt04  = formonly.display_field;
+EDIT dt05  = formonly.input_field;
+
+ac01 = formonly.accode, TITLE="Code";
+ac02 = formonly.acdesc, TITLE="Description";
+ac03 = formonly.acactual, TITLE="Actual", FORMAT="$,$$$,$$&.&&";
+ac04 = formonly.acbudget, TITLE="Budget", FORMAT="$,$$$,$$&.&&";
+ac05 = formonly.acvariance, TITLE="Variance", FORMAT = "----,-$&.&&";
+DATEEDIT ac06 = formonly.aclastuseddate, TITLE="Last Used Date", FORMAT="dd-mmm-yyyy";
+TIMEEDIT ac07 = formonly.aclastusedtime, TITLE="Last Used Time";
+EDIT ac08 = formonly.aclastuseddatetime, TITLE="Last Used Datetime", SCROLL;
+
+EDIT s01 = formonly.sfield01, NOT NULL, STYLE="mandatory";
+EDIT s02 = formonly.sfield02, NOT NULL, STYLE="mandatory";
+EDIT s03 = formonly.sfield03;
+
+EDIT cp01 = formonly.cpfield01;
+
+
+
+EDIT X = formonly.dummy, INVISIBLE, STYLE="dummy";
+EDIT Y = formonly.dummy2, INVISIBLE, STYLE="dummy";
+EDIT Z = formonly.dummy3, INVISIBLE, STYLE="dummy";
+
+BUTTON bsr01 : stylereader_window_normal, TEXT="Normal window";
+BUTTON bsr02 : stylereader_window_dialog, TEXT="Dialog window";
+
+BUTTON bfp01: current_folderpage_test, TEXT="Current Test Folder Page";
+BUTTON bfp02: current_folderpage_toplevel, TEXT="Current TopLevel Folder Page";
+
+EDIT rg01 = formonly.rg_name;
+EDIT rg02 = formonly.rg_text;
+BUTTON rgp: rg_populate, TEXT="Populate";
+RADIOGROUP rg00 = formonly.rg_test;
+
+
+INSTRUCTIONS
+SCREEN RECORD arrcopy(accode,acdesc,acactual,acbudget,acvariance, aclastuseddate, aclastusedtime, aclastuseddatetime);
+SCREEN RECORD dialogtype_display_scr(display_field);
+SCREEN RECORD dialogtype_input_scr(input_field);
+
+SCREEN RECORD rg_scr(rg_name, rg_text)
